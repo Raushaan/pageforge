@@ -1,0 +1,7 @@
+{
+    "active": "v2",
+    "versions": {
+      "v1": {"file": "v1.txt", "notes": "Baseline: short instruction, no example."},
+      "v2": {"file": "v2.txt", "notes": "Adds rules, section guide and a full example."}
+    }
+  }
