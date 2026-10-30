@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ page.title }}</title>
+<style>
+  /* One palette per theme. The LLM only picks the theme name. */
+  .theme-light { --bg:#ffffff; --surface:#f3f5f8; --text:#1d2430; --muted:#5b6575; --accent:#2457d6; --on-accent:#ffffff; }
+  .theme-dark  { --bg:#14171c; --surface:#1f242c; --text:#eef1f5; --muted:#a3acb9; --accent:#7aa2ff; --on-accent:#0d1220; }
+  .theme-warm  { --bg:#fffaf3; --surface:#f6ebdc; --text:#33261a; --muted:#7a6553; --accent:#b4532a; --on-accent:#ffffff; }
+  .theme-ocean { --bg:#f2fbfc; --surface:#dff2f4; --text:#0f3440; --muted:#4a6d77; --accent:#0b7a8a; --on-accent:#ffffff; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+         background:var(--bg); color:var(--text); line-height:1.6; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 64px 0; }
+  section:nth-of-type(even) { background: var(--surface); }
+  h1 { font-size: clamp(2rem, 5vw, 3.2rem); line-height:1.15; margin:0 0 16px; }
+  h2 { font-size: 1.8rem; margin:0 0 24px; }
+  h3 { margin: 0 0 8px; font-size: 1.1rem; }
+  p  { margin: 0 0 12px; max-width: 68ch; }
+  .muted { color: var(--muted); }
+  .hero { padding: 96px 0; }
+  .lead { font-size: 1.2rem; color: var(--muted); }
+  .btn { display:inline-block; margin-top: 16px; padding: 12px 22px; border-radius: 8px;
+         background: var(--accent); color: var(--on-accent); text-decoration:none; font-weight:600; }
+  .btn:focus-visible { outline: 3px solid var(--text); outline-offset: 3px; }
+  .grid { display:grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .item { padding: 4px 0 4px 16px; border-left: 3px solid var(--accent); }
+  blockquote { margin:0; font-size:1.1rem; }
+  cite { display:block; margin-top:8px; color:var(--muted); font-style:normal; }
+  footer { padding: 24px 0; color: var(--muted); font-size: .9rem; }
+</style>
+</head>
+<body class="theme-{{ page.theme }}">
+<main>
+{% for s in page.sections %}
+  {% if s.type == "hero" %}
+  <section class="hero"><div class="wrap">
+    <h1>{{ s.heading }}</h1>
+    <p class="lead">{{ s.subheading }}</p>
+    <a class="btn" href="#contact">{{ s.cta_text }}</a>
+  </div></section>
+
+  {% elif s.type == "features" %}
+  <section><div class="wrap">
+    <h2>{{ s.heading }}</h2>
+    <div class="grid">
+      {% for f in s["items"] %}
+      <div class="item"><h3>{{ f.title }}</h3><p class="muted">{{ f.description }}</p></div>
+      {% endfor %}
+    </div>
+  </div></section>
+
+  {% elif s.type == "about" %}
+  <section><div class="wrap">
+    <h2>{{ s.heading }}</h2>
+    <p>{{ s.body }}</p>
+  </div></section>
+
+  {% elif s.type == "testimonials" %}
+  <section><div class="wrap">
+    <h2>{{ s.heading }}</h2>
+    <div class="grid">
+      {% for t in s["items"] %}
+      <blockquote>“{{ t.quote }}”<cite>{{ t.author }}</cite></blockquote>
+      {% endfor %}
+    </div>
+  </div></section>
+
+  {% elif s.type == "contact" %}
+  <section id="contact"><div class="wrap">
+    <h2>{{ s.heading }}</h2>
+    <p>Email: <a href="mailto:{{ s.email }}">{{ s.email }}</a></p>
+    {% if s.phone %}<p>Phone: {{ s.phone }}</p>{% endif %}
+    {% if s.address %}<p class="muted">{{ s.address }}</p>{% endif %}
+  </div></section>
+  {% endif %}
+{% endfor %}
+</main>
+<footer><div class="wrap">Made with PageForge</div></footer>
+</body>
+</html>
